@@ -50,7 +50,8 @@ Htree * create_tree(int A[]  ,int  n)
                 break;
             }
         }
-        //遍历整个数组找出最小和次最小
+        //遍历整个数组找出最小和次最小 以下有两种方式
+        /*  
         int temp;
         if (B[min]->weight > B[next_min]->weight) {
             temp=min;min=next_min;next_min=temp;
@@ -69,7 +70,24 @@ Htree * create_tree(int A[]  ,int  n)
             
             }
         }
+        */
+        for  (j = next_min ; j<n; j++)
+        {
+            if(B[j] != NULL )
+            {
+                if(B[j]->weight < B[min]->weight )
+                {
+                    next_min = min;
+                    min = j;    //首次时相当于min和 next_min发生了交换　非常精简
+                    
+                }    
+                else if(B[j]->weight < B[next_min]->weight )
+                    next_min = j;
+            }
+        }
 
+
+        //生成新节点进行赋值
         q = (Htree *) malloc (sizeof(Htree));
         q->weight = B[min]->weight + B[next_min]->weight;
         q->left = B[min];
@@ -103,7 +121,31 @@ void visit_Htree(Htree *TT)
     }
 
 }
+//哈弗曼编码
+void Huffmancoding(Htree *TT,int  len )
+{
+    static int code[10];
+    if(TT != NULL)
+    {
+        if(TT->left == NULL && TT->right ==NULL)
+        {
+            
+            printf("%d此节点的哈弗曼编码:",TT->weight);
+            int  j=0;
+            for ( j= 0;j<len;j++)
+                printf("%d", code[j]);
+            printf("\n");
+        }
+        else  //进入节点之后　进左右之前分别存储０或１
+        {
+            code[len] = 0;
+            Huffmancoding(TT->left, len+1);
+            code[len] = 1;
+            Huffmancoding(TT->right, len+1);
+        }
 
+    }
+}
 
 int main ()
 {
@@ -120,8 +162,11 @@ int main ()
     for (int i=0; i<n ; i++){
         scanf("%d",& A[i]);
     }
-    //创建哈弗曼树
+    //创建哈弗曼树  还需加一条字符数组进行辨认
     TT = create_tree(A,n);
-    //    visit_Htree(TT);
+    visit_Htree(TT);
+    printf("\n");
+    //哈弗曼编码
+    Huffmancoding(TT,0);
 
 }

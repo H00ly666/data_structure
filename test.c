@@ -65,7 +65,7 @@ struct BTreeNode* CreateHuffman(ElemType a[], int n)
             {
                 if (b[j]->data < b[min]->data)
                 {
-                    ci_min = min;
+                    ci_min = min;      //首次运行相当于ci_min 与　min 发生了交换
                     min = j;
                 }
                 else if (b[j]->data < b[ci_min]->data)
