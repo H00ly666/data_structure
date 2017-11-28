@@ -1,4 +1,4 @@
-/*************************************************************************
+/************************************************************************
 	> File Name: creat_tree.c
 	> Author: 
 	> Mail: 
@@ -18,7 +18,7 @@ typedef struct n{
     struct n* next;
 }Qlist;
 /*
-void Create_tree(Tnode **Root) //指针本身会保存在一片空间里　而其中的值是不定的　malloc正好会改变其中的值那么如果我们不把这个指针的地址存起来　自然日后就会丢失不见
+void Create_tree(Tnode **Root) //指针本身会保存在一片空间里　而其中的值是不定的　mallo正好会改变其中的值那么如果我们不把这个指针的地址存起来　自然日后就会丢失不见
 {
     int  num;
     printf("请输入数据　０结束\n");
@@ -104,13 +104,49 @@ void Visit_tree_list(Tnode *Root)
     
     }
 }
+void count_tree(Tnode *root,int level)
+{
+    int  curcount=1,nextcount=0,count=1;
+    Qlist *Q;
+    Tnode *temp;
+    Q = (Qlist *) malloc (sizeof(Qlist));
+    Q->next = NULL;
+    enqueue(Q,root);
+    while(Q->next!= NULL){
+
+        temp = dequeue(Q);
+        curcount--;
+        
+        if(temp->Lchild != NULL){
+            enqueue(Q,temp->Lchild);
+            nextcount++;
+        }
+        if(temp->Rchild != NULL){
+            enqueue(Q,temp->Rchild);
+            nextcount++;
+        }
+        if(curcount == 0){
+            count++;
+            if(level == count)
+                printf("个数为%d",nextcount);
+            curcount = nextcount;
+        }
+        
+
+    }
+
+}
+
 
 
 int main ()
 {
     Tnode *Root;
+    int level;
     Root =  Create_tree();
    // Visit_tree(Root); 
-    Visit_tree_list(Root);
+   // Visit_tree_list(Root);
+    scanf("%d",&level);
+    count_tree(Root,level);
     return 0; 
 }
