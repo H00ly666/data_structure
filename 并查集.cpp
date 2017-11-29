@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 int  pre[1010];  //全是掌门　
 int  unionsearch(int  root)
 {
