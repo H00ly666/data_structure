@@ -54,33 +54,34 @@ Tnode * dequeue(Qlist *Q)
 }
 
 
-void count_tree(Tnode *root,int level)
+void count_tree(Tnode *root,int level)//level 传进来的层数
 {
-    int  curcount=1,nextcount=0,count=1;
-    Qlist *Q;
+    int  curcount=1,nextcount=0;//初始化当前节点个数，及下一行节点个数
+    int count=1; //根节点所在层数为1
+    Qlist *Q;   //队列
     Tnode *temp;
     Q = (Qlist *) malloc (sizeof(Qlist));
     Q->next = NULL;
-    enqueue(Q,root);
+    enqueue(Q,root);  //入队
     while(Q->next!= NULL){
 
-        temp = dequeue(Q);
-        curcount--;
+        temp = dequeue(Q);  //出队
+        curcount--;         //当前层节点个数减一
 
-        if(temp->Lchild != NULL){
+        if(temp->Lchild != NULL){//下一层有则加一个
             enqueue(Q,temp->Lchild);
             nextcount++;
         }
-        if(temp->Rchild != NULL){
+        if(temp->Rchild != NULL){//同上
             enqueue(Q,temp->Rchild);
             nextcount++;
         }
-        if(curcount == 0){
+        if(curcount == 0){  //当 当前层的节点出完个数为0,是不是就转到下一层了 
             count++;
             if(level == count)
-            printf("%d",nextcount);
-            curcount = nextcount;
-	    nextcount = 0;
+                printf("%d",nextcount);//输出节点个数
+            curcount = nextcount; //赋值
+	        nextcount = 0; //下层归
         }
     }
 }

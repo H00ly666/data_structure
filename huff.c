@@ -1,6 +1,6 @@
 /*************************************************************************
 > File Name: huff.c
-> Author: 
+> Author: 刘嘉辉
 > Mail: 
 > Created Time: 2017年11月20日 星期一 21时11分48秒
 ************************************************************************/
@@ -14,7 +14,10 @@ typedef  struct node {
     struct node  *right;
 
 }Htree;
-
+typedef struct ch{
+    char c;
+    int  *pp;
+}Node;
 //创建哈弗曼树
 Htree * create_tree(int A[]  ,int  n)
 {
@@ -30,7 +33,7 @@ Htree * create_tree(int A[]  ,int  n)
         B[i] = (Htree *)malloc(sizeof(Htree) ) ;
         B[i]->weight = A[i];
         B[i]->left = B[i]->right = NULL;
-
+        
     }
     //循环n-1次进行建立哈弗曼树
 
@@ -122,19 +125,20 @@ void visit_Htree(Htree *TT)
 
 }
 //哈弗曼编码
-void Huffmancoding(Htree *TT,int  len )
+void Huffmancoding(Htree *TT,int  len)
 {
     static int code[10];
     if(TT != NULL)
     {
         if(TT->left == NULL && TT->right ==NULL)
         {
-            
-            printf("%d此节点的哈弗曼编码:",TT->weight);
+            printf("%d 处的哈弗曼编码为:",TT->weight);
             int  j=0;
             for ( j= 0;j<len;j++)
                 printf("%d", code[j]);
             printf("\n");
+        
+
         }
         else  //进入节点之后　进左右之前分别存储０或１
         {
@@ -162,6 +166,9 @@ int main ()
     for (int i=0; i<n ; i++){
         scanf("%d",& A[i]);
     }
+    
+    
+    
     //创建哈弗曼树  还需加一条字符数组进行辨认
     TT = create_tree(A,n);
     visit_Htree(TT);
