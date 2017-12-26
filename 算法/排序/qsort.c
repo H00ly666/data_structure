@@ -26,6 +26,6 @@ int main()
     qsort(an,num,sizeof(unsigned int ), mycompara);
     for(int i= 0 ; i<num ; i++){
         printf("%d ",an[i]);
-    }
+   }
     return 0;
 }
